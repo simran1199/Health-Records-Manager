@@ -18,8 +18,37 @@ router.get('/', auth, async (req, res) => {
 }); 
 
 // add new  records
-router.post('/', (req, res) => {
-    res.send("add new records");
+router.post('/', [auth, [
+    check('disease', 'Please mention your disease!!').not().isEmpty(),
+    check('symptoms', 'Please mention the major assosiated symptoms!!').not().isEmpty(),
+    ]
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { disease, symptoms, cause, description, doctor, doctorPhone, treatmentStatus } = req.body;
+
+    try {
+        const newRecords = new Records({
+            disease:disease,
+            symptoms:symptoms, 
+            cause: cause, 
+            description: description, 
+            doctor: doctor, 
+            doctorPhone: doctorPhone, 
+            treatmentStatus:treatmentStatus,
+            user: req.user.id
+        });
+
+        const records = await newRecords.save();
+
+        res.json(records);
+    } catch (err) {
+        console.error(er.message);
+        res.status(500).send('Server Error');
+    }
 }); 
 
 // update  records
