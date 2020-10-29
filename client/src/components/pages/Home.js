@@ -1,11 +1,13 @@
 import React from 'react'
 import Records from '../records/Records';
+import RecordForm from '../records/RecordForm';
+
 
 const Home = () => {
   return (
     <div className="grid-2">
       <div>
-        {/*RecordForm */ }
+        <RecordForm />
       </div>
       <div>
         <Records />

@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
+//import uuid from 'uuid';
 import RecordContext from './recordContext';
 import recordReducer from './recordReducer';
 import {
@@ -48,20 +49,38 @@ const RecordState = props => {
                 doctorPhone: "2345678",
                 date: "2020-10-28T07:32:45.444Z",
             }
-        ]
+        ],
+        current : null
     };
 
     const [ state, dispatch ] = useReducer(recordReducer, initialState);
 
     //Add records
+    const addRecord = (record) => {
+        record.id = uuidv4();
+        dispatch({ type: ADD_RECORD, payload: record });
+    };
 
     //delete record
+    const deleteRecord = (id) => {
+        dispatch({ type: DELETE_RECORD, payload: id });
+    };
 
     //set current record
+    const setCurrent = (record) => {
+        dispatch({ type: SET_CURRENT, payload: record });
+    };
 
     //clear current record
+    const clearCurrent = (record) => {
+        dispatch({ type: CLEAR_CURRENT });
+    };
+
 
     //update record
+    const updateRecord = (record) => {
+        dispatch({ type: UPDATE_RECORD, payload: record });
+    };
 
     //filter record
 
@@ -70,8 +89,13 @@ const RecordState = props => {
     return (
         <RecordContext.Provider  
         value = {{
-            records: state.records
-
+            records: state.records,
+            current: state.current,
+            addRecord,
+            deleteRecord,
+            setCurrent,
+            clearCurrent,
+            updateRecord
         }}> 
                 { props.children }
         </RecordContext.Provider>
