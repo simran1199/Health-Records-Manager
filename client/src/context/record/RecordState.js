@@ -25,7 +25,7 @@ const RecordState = props => {
                 description: "",
                 doctor: "Dr. niranjan",
                 doctorPhone: "234567845",
-                date: "2020-10-28T07:36:40.161Z",
+                date: "2020-10-28T07:36:40.161Z"
             },
             {
                 id: 2,
@@ -36,7 +36,7 @@ const RecordState = props => {
                 description: "I got it due to cold weather.",
                 doctor: "Dr. C G Agarwal",
                 doctorPhone: "2345678",
-                date: "2020-10-28T07:34:24.000Z",
+                date: "2020-10-28T07:34:24.000Z"
             },
             {
                 id: 3,
@@ -47,7 +47,7 @@ const RecordState = props => {
                 description: "I got oit sice i was 30yr old and its a A type disbetes.",
                 doctor: "Dr. C G Agarwal",
                 doctorPhone: "2345678",
-                date: "2020-10-28T07:32:45.444Z",
+                date: "2020-10-28T07:32:45.444Z"
             }
         ],
         current : null,

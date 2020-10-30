@@ -1,4 +1,3 @@
-import { startSession } from 'mongoose';
 import {
     ADD_RECORD,
     DELETE_RECORD,
