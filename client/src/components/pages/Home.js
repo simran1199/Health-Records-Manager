@@ -1,6 +1,7 @@
 import React from 'react'
 import Records from '../records/Records';
 import RecordForm from '../records/RecordForm';
+import RecordFilter from '../records/RecordFilter';
 
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
         <RecordForm />
       </div>
       <div>
+        <RecordFilter />
         <Records />
       </div>
     </div>

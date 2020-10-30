@@ -1,3 +1,4 @@
+import { startSession } from 'mongoose';
 import {
     ADD_RECORD,
     DELETE_RECORD,
@@ -28,18 +29,33 @@ export default (state, action) => {
                 current: action.payload
             }
 
-            case CLEAR_CURRENT:
+        case CLEAR_CURRENT:
             return {
                 ...state,
                 current: null
             }
 
-            case UPDATE_RECORD:
+        case UPDATE_RECORD:
                 return {
                     ...state,
                     records: state.records.map(record => record.id === action.payload.id ? 
                     action.payload : record ) 
                 }
+        
+        case FILTER_RECORDS:
+            return {
+                ...state,
+                filtered: state.records.filter(record => {
+                    const regex = new RegExp(`${action.payload}`, 'gi');
+                    return record.disease.match(regex) || record.symptoms.match(regex);
+                })
+            }
+
+        case CLEAR_FILTER:
+            return {
+                ...state,
+                filtered: null
+            }
 
         default : return state;
     }

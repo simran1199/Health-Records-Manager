@@ -50,7 +50,8 @@ const RecordState = props => {
                 date: "2020-10-28T07:32:45.444Z",
             }
         ],
-        current : null
+        current : null,
+        filtered: null
     };
 
     const [ state, dispatch ] = useReducer(recordReducer, initialState);
@@ -83,19 +84,28 @@ const RecordState = props => {
     };
 
     //filter record
+    const filterRecords = (text) => {
+        dispatch({ type: FILTER_RECORDS, payload: text });
+    };
 
     // clear filter
+    const clearFilter = (record) => {
+        dispatch({ type: CLEAR_FILTER });
+    };
 
     return (
         <RecordContext.Provider  
         value = {{
             records: state.records,
             current: state.current,
+            filtered: state.filtered,  
             addRecord,
             deleteRecord,
             setCurrent,
             clearCurrent,
-            updateRecord
+            updateRecord,
+            filterRecords,
+            clearFilter
         }}> 
                 { props.children }
         </RecordContext.Provider>
