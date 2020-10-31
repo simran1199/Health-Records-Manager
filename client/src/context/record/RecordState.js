@@ -1,9 +1,11 @@
 import React, { useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 //import uuid from 'uuid';
+import axios from 'axios';
 import RecordContext from './recordContext';
 import recordReducer from './recordReducer';
 import {
+    GET_RECORDS,
     ADD_RECORD,
     DELETE_RECORD,
     SET_CURRENT,
@@ -11,60 +13,60 @@ import {
     UPDATE_RECORD,
     FILTER_RECORDS,
     CLEAR_FILTER,
+    CLEAR_RECORDS,
+    RECORD_ERROR
 } from '../types';
 
 const RecordState = props => {
     const initialState = {
-        records: [
-            {
-                id: 1,
-                treatmentStatus: "Cured",
-                disease: "Typhoid",
-                symptoms: "Body soring, weakness, high fever and headache",
-                cause: "eating street food",
-                description: "",
-                doctor: "Dr. niranjan",
-                doctorPhone: "234567845",
-                date: "2020-10-28T07:36:40.161Z"
-            },
-            {
-                id: 2,
-                treatmentStatus: "Ongoing",
-                disease: "Flu",
-                symptoms: "running nose and throat infection",
-                cause: "ice cream",
-                description: "I got it due to cold weather.",
-                doctor: "Dr. C G Agarwal",
-                doctorPhone: "2345678",
-                date: "2020-10-28T07:34:24.000Z"
-            },
-            {
-                id: 3,
-                treatmentStatus: "cured",
-                disease: "diabetes",
-                symptoms: "restlessness and over thirstiness",
-                cause: "n/a",
-                description: "I got oit sice i was 30yr old and its a A type disbetes.",
-                doctor: "Dr. C G Agarwal",
-                doctorPhone: "2345678",
-                date: "2020-10-28T07:32:45.444Z"
-            }
-        ],
+        records: null,
         current : null,
-        filtered: null
+        filtered: null,
+        error: null
     };
 
     const [ state, dispatch ] = useReducer(recordReducer, initialState);
 
+
+    //GET CONTACTS
+    const getRecords = async () => {
+        try {
+            const res = await axios.get('/api/records');
+
+            dispatch({ type: GET_RECORDS, payload: res.data });
+        } catch (err) {
+            dispatch({ type: RECORD_ERROR, payload: err.response.msg });
+        }
+    };
+
+
+
+
     //Add records
-    const addRecord = (record) => {
-        record.id = uuidv4();
-        dispatch({ type: ADD_RECORD, payload: record });
+    const addRecord = async (record) => {
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }
+
+        try {
+            const res = await axios.post('/api/records', record, config);
+
+            dispatch({ type: ADD_RECORD, payload: res.data });
+        } catch (err) {
+            dispatch({ type: RECORD_ERROR, payload: err.response.msg });
+        }
     };
 
     //delete record
     const deleteRecord = (id) => {
         dispatch({ type: DELETE_RECORD, payload: id });
+    };
+
+    //clear records
+    const clearRecords = (record) => {
+        dispatch({ type: CLEAR_RECORDS });
     };
 
     //set current record
@@ -98,14 +100,17 @@ const RecordState = props => {
         value = {{
             records: state.records,
             current: state.current,
-            filtered: state.filtered,  
+            filtered: state.filtered,
+            error: state.error,  
             addRecord,
             deleteRecord,
             setCurrent,
             clearCurrent,
             updateRecord,
             filterRecords,
-            clearFilter
+            clearFilter,
+            getRecords,
+            clearRecords
         }}> 
                 { props.children }
         </RecordContext.Provider>
