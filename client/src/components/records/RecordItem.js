@@ -8,7 +8,7 @@ const RecordItem = ({ record }) => {
     const { deleteRecord, setCurrent, clearCurrent } = recordContext;
 
     const { 
-        id, 
+        _id, 
         disease, 
         treatmentStatus, 
         symptoms, 
@@ -19,7 +19,7 @@ const RecordItem = ({ record }) => {
         date } = record;
 
         const onDelete = () => {
-            deleteRecord(id);
+            deleteRecord(_id);
             clearCurrent();
         }
 
@@ -39,7 +39,7 @@ const RecordItem = ({ record }) => {
             <i className="fas fa-bacteria"></i><strong> Causes: </strong> {cause}
         </li>)}
         {description && (<li>
-            <i className="fas fa-prescription-bottle-alt"></i><strong> Description: </strong> {description}
+            <i className="fas fa-prescription-bottle-alt"></i><strong> Description/Report's Link: </strong> {description}
         </li>)}
         {doctor && (<li>
             <i className="fas fa-user-md"></i><strong> Doctor: </strong> {doctor}

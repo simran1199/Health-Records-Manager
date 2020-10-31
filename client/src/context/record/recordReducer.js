@@ -24,14 +24,14 @@ export default (state, action) => {
         case ADD_RECORD:
             return {
             ...state,
-            records: [...state.records, action.payload],
+            records: [action.payload, ...state.records],
             loading: false
             };
             
         case DELETE_RECORD:
             return {
                 ...state,
-                records: state.records.filter(record => record.id !== action.payload),
+                records: state.records.filter(record => record._id !== action.payload),
                 loading: false
             }
 
@@ -59,7 +59,7 @@ export default (state, action) => {
         case UPDATE_RECORD:
                 return {
                     ...state,
-                    records: state.records.map(record => record.id === action.payload.id ? 
+                    records: state.records.map(record => record._id === action.payload._id ? 
                     action.payload : record ),
                     loading: false 
                 }

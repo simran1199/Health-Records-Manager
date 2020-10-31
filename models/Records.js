@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+let d = new Date();
+//.toISOString().split('T')[0];
+const g = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()} (at ${d.getHours()}:${d.getMinutes()} IST)`;
+
 const RecordsSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -31,8 +35,8 @@ const RecordsSchema = mongoose.Schema({
         default: 'Ongoing'
     },
     date: {
-        type: Date,
-        default: Date.now
+        type: String,
+        default: g
     }
 });
 

@@ -39,9 +39,6 @@ const RecordState = props => {
         }
     };
 
-
-
-
     //Add records
     const addRecord = async (record) => {
         const config = {
@@ -49,7 +46,6 @@ const RecordState = props => {
                 'Content-Type' : 'application/json'
             }
         }
-
         try {
             const res = await axios.post('/api/records', record, config);
 
@@ -60,12 +56,32 @@ const RecordState = props => {
     };
 
     //delete record
-    const deleteRecord = (id) => {
-        dispatch({ type: DELETE_RECORD, payload: id });
+    const deleteRecord = async (id) => {
+        try {
+            await axios.delete(`/api/records/${id}`);
+            dispatch({ type: DELETE_RECORD, payload: id });
+        } catch (err) {
+            dispatch({ type: RECORD_ERROR, payload: err.response.msg });
+        }  
+    };
+
+    //update record
+    const updateRecord = async (record) => {
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }
+        try {
+            const res = await axios.put(`/api/records/${record._id}`, record, config);
+            dispatch({ type: UPDATE_RECORD, payload: res.data });
+        } catch (err) {
+            dispatch({ type: RECORD_ERROR, payload: err.response.msg });
+        }
     };
 
     //clear records
-    const clearRecords = (record) => {
+    const clearRecords = () => {
         dispatch({ type: CLEAR_RECORDS });
     };
 
@@ -75,14 +91,8 @@ const RecordState = props => {
     };
 
     //clear current record
-    const clearCurrent = (record) => {
+    const clearCurrent = () => {
         dispatch({ type: CLEAR_CURRENT });
-    };
-
-
-    //update record
-    const updateRecord = (record) => {
-        dispatch({ type: UPDATE_RECORD, payload: record });
     };
 
     //filter record
@@ -91,7 +101,7 @@ const RecordState = props => {
     };
 
     // clear filter
-    const clearFilter = (record) => {
+    const clearFilter = () => {
         dispatch({ type: CLEAR_FILTER });
     };
 
